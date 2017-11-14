@@ -83,6 +83,8 @@ the 1x1 Convolutional layer is used to change the number of filters with kernel 
 I used the 1x1 Convolutional layer to increase the number of filters from 256 to 512 so the dimension of the layer become (256, 5, 5) ==> 
 (512, 5, 5). (despite it's used in general to reduce the number of filters, I increased it, because it gives better final results)
 
+the 1x1 Convolutional layer is used here becuase it preserve the spatial informations of the input (e.g. pixel position).
+
 
 
 ### 4- HyperParameter(HP) choosing:
