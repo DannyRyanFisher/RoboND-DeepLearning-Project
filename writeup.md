@@ -32,6 +32,10 @@ the architecture of my model is as follow ::
 
 4- add skip connection as shown in the Network architecture image above 
 
+the encoders will learn to detect features of the input image and the deeper the convolutional layer the more complex the feature will be for example the first layer would learn to detect very simple feature like vertical or horizontal lines and the layers after it would learn to detect more complex curves and some certine shapes
+
+the decoders will take the outputs from the 1x1 convolutional layer and upsample it and learn to mask it and the dimension of the output of the decoders' block will be the same as the input image but instead it will be masked 
+
 ```python
 def encoder_block(input_layer, filters, strides):
     
@@ -77,7 +81,7 @@ def fcn_model(inputs, num_classes):
 
 the 1x1 Convolutional layer is used to change the number of filters with kernel and stride = 1, 
 I used the 1x1 Convolutional layer to increase the number of filters from 256 to 512 so the dimension of the layer become (256, 5, 5) ==> 
-(512, 5, 5). (despite it's used in general to reduce the number of filters, I increased it because it gives better final results)
+(512, 5, 5). (despite it's used in general to reduce the number of filters, I increased it, because it gives better final results)
 
 
 
@@ -257,5 +261,5 @@ the video below show the final results
 
 3- the video show that the drone follow the hero for the whole recording time but it takes sometimes >= 5 min to catch him, I think doing the previous two steps can improve this.
 
-
+I don't think this model will works well for following small object (e.g. cats, dogs) specially from long distance and some angles, but it should works well (maybe not the same final score as this) for larger object (e.g. car, horses)
 
