@@ -6,6 +6,8 @@
 
 [Jupyter Notebook](https://github.com/JafarAbdi/RoboND-DeepLearning-Project/blob/master/code/model_training.ipynb)
 
+[HTML version of the Notebook](https://github.com/JafarAbdi/RoboND-DeepLearning-Project/blob/master/model_training.html)
+
 [//]: # (Image References)
 
 [NetworkImg]: ./img/Network.png
