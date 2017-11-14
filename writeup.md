@@ -239,13 +239,17 @@ for itr in range(num_itr):
     print('#' * 25 + ', ' + str(itr) + ' iteration finished.')
 ```
 
-### 5- Final results
+### 5- Data for training
+
+I used the default data provided by udacity.
+
+### 6- Final results
 
 the video below show the final results 
 
 [Final Results](https://www.youtube.com/watch?v=QlZK7eJRojE)
 
-### 6-Future Enhacement
+### 7-Future Enhacement
 
 1- in the training curve the final epoch's traning loss = 0.0115 and validation loss = 0.0341 overfitting like ==> adding more data can improve this
 
