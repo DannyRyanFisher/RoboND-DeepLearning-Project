@@ -161,7 +161,7 @@ def fcn_model(inputs, num_classes):
 
 ### 4- HyperParameter(HP) choice:
 
-The code below re-organises the code given in the model_training.ipynb notebook with a method for hyperparameter tuning.  [link](https://www.coursera.org/learn/deep-neural-network)
+The code below re-organises the code given in the model_training.ipynb notebook with a method for hyperparameter tuning.  For the HP choice, a HyperParameter Optimisation technique was implemented with the following steps below: [link](https://www.coursera.org/learn/deep-neural-network)
 
 1- Choose a range for each of the hyper parameters
 
@@ -175,8 +175,8 @@ The code below re-organises the code given in the model_training.ipynb notebook 
 3- For the predefined number of iterations, run the parameter values and calculate the final grade
    score.
 
-   # And the final grade score is 
-   final_score = final_IoU * weight
+    # And the final grade score is 
+    final_score = final_IoU * weight
 
 4- If the score improves, then save the new parameters. If not continue to the next iteration.
 
@@ -196,6 +196,7 @@ The code below re-organises the code given in the model_training.ipynb notebook 
         weight_file_name = 'model_weights'
         model_tools.save_network(model, weight_file_name)
 
+5- Model weights are also generated during this process and stored above
 
 #### Final Hyper Parameters (HP)
 The output graphs (Images 3-5) of the training curves from each of the 10th, 35th and 75th epoch demonstrate the convergence of the validation loss to the training loss eventually to 0.0115 and 0.0341 respectively
@@ -254,7 +255,7 @@ The following images shows how the fully convolutional network trained model per
     number true positives: 135, number false positives: 0, number false negatives: 166
 
 
-These predictions resulted in a a weight for the true positives of 0.77, a final IoU of 0.57 and a final grade score of 0.44
+These predictions resulted in a **weight** for the true positives of **0.77**, a **final IoU** of **0.57** and a **final grade score** of **0.44** in the final analysis 
 
 
 ### 6- Future Enhancements
