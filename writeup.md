@@ -33,7 +33,6 @@ In summary an FCN is consisting of the following components:
 
 
 ### 2- the Network architecture:
-
 ![Image 2](./Photos/NetworkArchitecture.jpg)
 
 
@@ -43,7 +42,8 @@ The architecture of the project FCN is structured in the same manor as Image 1, 
 - 5 encoders. Each with 8^2n filters
   - Number of strides = 2
 
-- A 1x1 convolutional layer with 512 filters. Here the 1x1 convolutionl layer has been optmised to double the number of filters which increases the overall final grade result.
+- A 1x1 convolutional layer with 512 filters (see Image 2). The 1x1 convolutionl layer has been optmised to double the number of filters     
+  which increases the overall final grade result.
 
 - 5 decoders, each with 2 seperable convolutional layers
 
@@ -159,24 +159,18 @@ def fcn_model(inputs, num_classes):
 ```
 
 
-### 4- HyperParameter(HP) choosing:
+### 4- HyperParameter(HP) choice:
 
-Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization
-
-[link](https://www.coursera.org/learn/deep-neural-network)
-
-
-"the code in the mentionned cells is merged together. below is the same as the default cell provided by udacity what I did is, I merged them in one cell and added some variable to decided which HPs is the best 
-
+The code below re-organises the code given in the model_training.ipynb notebook with a method for hyperparameter tuning.  [link](https://www.coursera.org/learn/deep-neural-network)
 
 1- Choose a range for each of the hyper parameters
 
-   generate_rand_hp(lr_a = -1, lr_b = -3, bs_a = 5, bs_b = 7, num_data=4131)
-
+    generate_random_hyper_parameters(lr_a = -1, lr_b = -4, bs_a = 5, bs_b = 8, num_data=4131)
 
 2- Generate random values for each of the parameters in the ranges defined.
 
-   rand_hp = generate_rand_hp()
+    learning_rate, batch_size, num_epochs, steps_per_epoch, validation_steps, workers = \
+    generate_random_hyper_parameters()
 
 3- For the predefined number of iterations, run the parameter values and calculate the final grade
    score.
@@ -186,41 +180,93 @@ Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimi
 
 4- If the score improves, then save the new parameters. If not continue to the next iteration.
 
-    if final_score > best_final_score:
-        best_final_score = final_score
+    if final_score > top-final-score:
+        top-final-score = final_score
 
-        best_hp['learning_rate']    = learning_rate
-        best_hp['batch_size']       = batch_size 
-        best_hp['num_epochs']       = num_epochs
-        best_hp['steps_per_epoch']  = steps_per_epoch
-        best_hp['validation_steps'] = validation_steps
-        best_hp['workers']          = workers
+        saved_hyper_parameters['learning_rate']    = learning_rate
+        saved_hyper_parameters['batch_size']       = batch_size 
+        saved_hyper_parameters['num_epochs']       = num_epochs
+        saved_hyper_parameters['steps_per_epoch']  = steps_per_epoch
+        saved_hyper_parameters['validation_steps'] = validation_steps
+        saved_hyper_parameters['workers']          = workers
         
-        print("a new better parameter : {}".format(best_hp))
+        print("a new better parameter : {}".format(saved_hyper_parameters))
         
         # Save your trained model weights
         weight_file_name = 'model_weights'
         model_tools.save_network(model, weight_file_name)
 
 
+#### Final Hyper Parameters (HP)
+The output graphs (Images 3-5) of the training curves from each of the 10th, 35th and 75th epoch demonstrate the convergence of the validation loss to the training loss eventually to 0.0115 and 0.0341 respectively
 
-### 5- Data for training
+#### Training curves from the 10th epoch
+![Image 3](./Photos/10-75.png)
 
-I used the default data provided by udacity.
+#### Training curves from the 35th epoch
+![Image 4](./Photos/35-75.png)
 
-### 6- Final results
+#### Training curves from the 75th epoch
+![Image 5](./Photos/75-75.png)
+    
+Using the data provided in the project repository, the final hyper parameters were found to be:
 
-the video below show the final results 
+    # Final results
+    learning_rate = 0.015
+    batch_size = 32
+    num_epochs = 75
+    steps_per_epoch = 4131 // 32
+    validation_steps = 50
+    workers = 4
 
-[Final Results](https://www.youtube.com/watch?v=QlZK7eJRojE)
 
-### 7-Future Enhacement
+### 5- Evaluation
 
-1- in the training curve the final epoch's traning loss = 0.0115 and validation loss = 0.0341 overfitting like ==> adding more data can improve this
+The following images shows how the fully convolutional network trained model performed in the three scenarios:
 
-2- trying one of the existed architecture (for example [LINK](http://blog.qure.ai/notes/semantic-segmentation-deep-learning-review) )
+#### Quadcopter following target
+![Image 6](./Photos/FollowMe.png)
 
-3- the video show that the drone follow the hero for the whole recording time but it takes sometimes >= 5 min to catch him, I think doing the previous two steps can improve this.
+    number of validation samples intersection over the union evaulated on 542
+    average intersection over union for background is 0.9960960464023674
+    average intersection over union for other people is 0.3939160706281827
+    average intersection over union for the hero is 0.9278455456674423
+    number true positives: 539, number false positives: 0, number false negatives: 0
 
-I don't think this model will works well for following small object (e.g. cats, dogs) specially from long distance and some angles, but it should works well (maybe not the same final score as this) for larger object (e.g. car, horses)
+
+#### Quadcopter with no target
+![Image 7](./Photos/NoTarget.png)
+
+    number of validation samples intersection over the union evaulated on 270
+    average intersection over union for background is 0.9902542985631233
+    average intersection over union for other people is 0.8025150949573301
+    average intersection over union for the hero is 0.0
+    number true positives: 0, number false positives: 39, number false negatives: 0
+
+#### Quadcopter at a long distance from target
+![Image 8](./Photos/TargetLong.png)
+
+
+    number of validation samples intersection over the union evaulated on 322
+    average intersection over union for background is 0.9971313952677134
+    average intersection over union for other people is 0.4692958923881602
+    average intersection over union for the hero is 0.22198816018696424
+    number true positives: 135, number false positives: 0, number false negatives: 166
+
+
+These predictions resulted in a a weight for the true positives of 0.77, a final IoU of 0.57 and a final grade score of 0.44
+
+
+### 6- Future Enhancements
+
+1- In order to improve the training and validation losses, a larger data set could be collected simply by inverting the image.
+
+2- As can be seen in Image 8, there are still parts of the target which are missing. This shows that the target is not fully learned and therefore the quadcopter would benefit from greater training sets of the target in order to reduce identification time when in a more complex environment.
+
+3- Adding more layers into the model will help in capturing more contexts and improve accuracy of segmentation.
+
+4- Changing learning rate could reduce learning time
+
+#### Can we use the same model to track other objects?
+The same model can be used for a different dataset of other objects; even datasets with different image sizes. However as the model architecture is optmised for the features of a simplified 'human' the level of complexity with which the model is capable of recognising would need to be investigated further.
 
